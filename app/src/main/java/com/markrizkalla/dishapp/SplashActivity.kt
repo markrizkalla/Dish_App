@@ -1,10 +1,16 @@
 package com.markrizkalla.dishapp
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.view.animation.Animation
+import android.view.animation.Animation.AnimationListener
+import android.view.animation.AnimationUtils
 import com.markrizkalla.dishapp.databinding.ActivitySplachBinding
 
 class SplashActivity : AppCompatActivity() {
@@ -26,6 +32,24 @@ class SplashActivity : AppCompatActivity() {
             )
         }
 
+
+        val splashAnimation = AnimationUtils.loadAnimation(this,R.anim.anim_splash)
+        binding.appName.animation = splashAnimation
+
+        splashAnimation.setAnimationListener(object:AnimationListener{
+            override fun onAnimationStart(p0: Animation?) {}
+
+            override fun onAnimationEnd(p0: Animation?) {
+//                to Handel things with a delay
+                Handler(Looper.getMainLooper()).postDelayed({
+                    startActivity(Intent(this@SplashActivity,MainActivity::class.java))
+                    finish()
+                },1000)
+            }
+
+            override fun onAnimationRepeat(p0: Animation?) {}
+
+        })
 
     }
 }

@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/splash_screen_title"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:textSize="50sp"
         android:fontFamily="cursive"
         android:textColor="@color/white"
