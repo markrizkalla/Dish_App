@@ -1,4 +1,4 @@
-package com.markrizkalla.dishapp
+package com.markrizkalla.dishapp.view.activities
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.markrizkalla.dishapp.R
 import com.markrizkalla.dishapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

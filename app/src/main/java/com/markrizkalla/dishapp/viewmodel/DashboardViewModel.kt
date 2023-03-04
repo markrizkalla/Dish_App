@@ -1,4 +1,4 @@
-package com.markrizkalla.dishapp.ui.dashboard
+package com.markrizkalla.dishapp.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

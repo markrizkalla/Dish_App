@@ -1,4 +1,4 @@
-package com.markrizkalla.dishapp
+package com.markrizkalla.dishapp.view.activities
 
 import android.content.Intent
 import android.os.Build
@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
+import com.markrizkalla.dishapp.R
 import com.markrizkalla.dishapp.databinding.ActivitySplachBinding
 
 class SplashActivity : AppCompatActivity() {
@@ -33,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
         }
 
 
-        val splashAnimation = AnimationUtils.loadAnimation(this,R.anim.anim_splash)
+        val splashAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_splash)
         binding.appName.animation = splashAnimation
 
         splashAnimation.setAnimationListener(object:AnimationListener{
@@ -42,7 +43,7 @@ class SplashActivity : AppCompatActivity() {
             override fun onAnimationEnd(p0: Animation?) {
 //                to Handel things with a delay
                 Handler(Looper.getMainLooper()).postDelayed({
-                    startActivity(Intent(this@SplashActivity,MainActivity::class.java))
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                     finish()
                 },1000)
             }
