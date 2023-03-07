@@ -9,12 +9,15 @@ import com.markrizkalla.dishapp.R
 import com.markrizkalla.dishapp.databinding.ActivityAddUpdateDishBinding
 import com.markrizkalla.dishapp.databinding.DialogCustomImageSelectionBinding
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.Settings
+import androidx.core.content.ContextCompat
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -48,8 +51,12 @@ class AddUpdateDishActivity : AppCompatActivity() {
                Manifest.permission.CAMERA
            ).withListener(object :MultiplePermissionsListener{
                override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
-                   if (p0!!.areAllPermissionsGranted()){
-                       Toast.makeText(this@AddUpdateDishActivity,"You have camera permission",Toast.LENGTH_SHORT).show()
+                   p0?.let {
+                       if (p0.areAllPermissionsGranted()){
+//                           open camera
+                           val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                           startActivityForResult(intent, CAMERA)
+                       }
                    }
                }
                override fun onPermissionRationaleShouldBeShown(
@@ -108,5 +115,22 @@ class AddUpdateDishActivity : AppCompatActivity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == CAMERA){
+                data?.extras?.let {
+                    val image : Bitmap = data.extras!!.get("data") as Bitmap
+                    binding.ivDishImage.setImageBitmap(image)
+                    binding.ivAddDishImage.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_edit))
+                }
+
+            }
+        }
+    }
+
+    companion object{
+        private const val CAMERA = 1
+    }
 
 }
