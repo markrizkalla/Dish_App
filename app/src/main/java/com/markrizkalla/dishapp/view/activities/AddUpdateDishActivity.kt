@@ -76,6 +76,11 @@ class AddUpdateDishActivity : AppCompatActivity() {
             ).withListener(object : PermissionListener {
                 override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
 
+                    // Intent to get photo from gallery
+                    val galleryIntent = Intent(Intent.ACTION_PICK,
+                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+
+                    startActivityForResult(galleryIntent, GALLERY)
                 }
 
                 override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
@@ -126,11 +131,22 @@ class AddUpdateDishActivity : AppCompatActivity() {
                 }
 
             }
+
+            if (requestCode == GALLERY){
+                data?.extras.let {
+                    val selectedImageUir = data?.data
+
+                    binding.ivDishImage.setImageURI(selectedImageUir)
+                    binding.ivAddDishImage.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_edit))
+
+                }
+            }
         }
     }
 
     companion object{
         private const val CAMERA = 1
+        private const val GALLERY = 1
     }
 
 }
