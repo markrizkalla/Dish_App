@@ -17,6 +17,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -133,14 +134,16 @@ class AddUpdateDishActivity : AppCompatActivity() {
             }
 
             if (requestCode == GALLERY){
-                data?.extras.let {
-                    val selectedImageUir = data?.data
+                data?.let {
+                    val selectedImageUir = data.data
 
                     binding.ivDishImage.setImageURI(selectedImageUir)
                     binding.ivAddDishImage.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_edit))
 
                 }
             }
+        }else if (resultCode == Activity.RESULT_CANCELED){
+            Log.e("cancelled","cancelled")
         }
     }
 
