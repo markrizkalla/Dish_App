@@ -149,7 +149,7 @@ class AddUpdateDishActivity : AppCompatActivity() {
 
     companion object{
         private const val CAMERA = 1
-        private const val GALLERY = 1
+        private const val GALLERY = 2
     }
 
 }
