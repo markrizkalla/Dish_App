@@ -12,6 +12,8 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -27,9 +29,18 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOError
+import java.io.IOException
+import java.io.OutputStream
+import java.util.*
 
 class AddUpdateDishActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityAddUpdateDishBinding
+    private var mImagePath : String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddUpdateDishBinding.inflate(layoutInflater)
@@ -129,6 +140,10 @@ class AddUpdateDishActivity : AppCompatActivity() {
                 data?.extras?.let {
                     val image : Bitmap = data.extras!!.get("data") as Bitmap
                     Glide.with(this).load(image).centerCrop().into(binding.ivDishImage)
+
+                    mImagePath = saveImageToInternalStorage(image)
+
+
                    // binding.ivDishImage.setImageBitmap(image)
                     binding.ivAddDishImage.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_edit))
                 }
@@ -150,9 +165,31 @@ class AddUpdateDishActivity : AppCompatActivity() {
         }
     }
 
+    private fun saveImageToInternalStorage(bitmap: Bitmap):String{
+        val wrapper = ContextWrapper(applicationContext)
+//        Image only accessible by our application
+        var file = wrapper.getDir(IMAGE_DIRECTORY, Context.MODE_PRIVATE)
+        file = File(file,"${UUID.randomUUID()}.jpg")
+
+        // create image
+
+        try {
+            val stream : OutputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100, stream)
+            stream.flush()
+            stream.close()
+        }catch (e:IOException){
+            e.printStackTrace()
+        }
+
+        return file.absolutePath
+    }
+
     companion object{
         private const val CAMERA = 1
         private const val GALLERY = 2
+
+        private const val IMAGE_DIRECTORY="DishImages"
     }
 
 }
