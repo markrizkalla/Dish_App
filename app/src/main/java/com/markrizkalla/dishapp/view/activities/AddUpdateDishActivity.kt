@@ -19,6 +19,7 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -127,7 +128,8 @@ class AddUpdateDishActivity : AppCompatActivity() {
             if (requestCode == CAMERA){
                 data?.extras?.let {
                     val image : Bitmap = data.extras!!.get("data") as Bitmap
-                    binding.ivDishImage.setImageBitmap(image)
+                    Glide.with(this).load(image).centerCrop().into(binding.ivDishImage)
+                   // binding.ivDishImage.setImageBitmap(image)
                     binding.ivAddDishImage.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_edit))
                 }
 
@@ -137,7 +139,8 @@ class AddUpdateDishActivity : AppCompatActivity() {
                 data?.let {
                     val selectedImageUir = data.data
 
-                    binding.ivDishImage.setImageURI(selectedImageUir)
+                    Glide.with(this).load(selectedImageUir).centerCrop().into(binding.ivDishImage)
+                   // binding.ivDishImage.setImageURI(selectedImageUir)
                     binding.ivAddDishImage.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_edit))
 
                 }
