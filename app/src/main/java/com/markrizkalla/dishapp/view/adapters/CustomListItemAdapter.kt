@@ -11,7 +11,6 @@ class CustomListItemAdapter(
     private val listItems:List<String>) : RecyclerView.Adapter<CustomListItemAdapter.ViewHolder>() {
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding:ItemCustomListBinding = ItemCustomListBinding.inflate(LayoutInflater.from(activity),parent,false)
         return ViewHolder(binding)
