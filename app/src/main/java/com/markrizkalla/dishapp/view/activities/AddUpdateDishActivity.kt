@@ -23,6 +23,7 @@ import android.provider.Settings
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -36,6 +37,9 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
+import com.markrizkalla.dishapp.databinding.DialogCustomListBinding
+import com.markrizkalla.dishapp.utils.Constants
+import com.markrizkalla.dishapp.view.adapters.CustomListItemAdapter
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOError
@@ -56,6 +60,17 @@ class AddUpdateDishActivity : AppCompatActivity() {
         binding.ivAddDishImage.setOnClickListener {
             customImageSelectionDialog()
         }
+
+        binding.etType.setOnClickListener{
+            customItemDialog("Dish Type",Constants.dishTypes(), Constants.DISH_TYPE)
+        }
+        binding.etCategory.setOnClickListener {
+            customItemDialog("Dish Category",Constants.dishCategories(),Constants.DISH_CATEGORY)
+        }
+        binding.etCookingTime.setOnClickListener{
+            customItemDialog("Select Time" , Constants.dishCookTime(),Constants.DISH_COOKING_TIME)
+        }
+
     }
 
     private fun customImageSelectionDialog(){
@@ -209,6 +224,20 @@ class AddUpdateDishActivity : AppCompatActivity() {
 
         return file.absolutePath
     }
+
+    private fun customItemDialog(title: String, itemsList:List<String>,selection: String){
+        val customListDialog = Dialog(this)
+        val binding:DialogCustomListBinding = DialogCustomListBinding.inflate(layoutInflater)
+
+        customListDialog.setContentView(binding.root)
+        binding.tvTitle.text = title
+
+        binding.rvList.layoutManager = LinearLayoutManager(this)
+        val adapter = CustomListItemAdapter(this,itemsList,selection)
+        binding.rvList.adapter = adapter
+        customListDialog.show()
+    }
+
 
     companion object{
         private const val CAMERA = 1

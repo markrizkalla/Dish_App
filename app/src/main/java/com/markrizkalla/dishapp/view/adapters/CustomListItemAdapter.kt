@@ -8,7 +8,8 @@ import com.markrizkalla.dishapp.databinding.ItemCustomListBinding
 
 class CustomListItemAdapter(
     private val activity:Activity,
-    private val listItems:List<String>) : RecyclerView.Adapter<CustomListItemAdapter.ViewHolder>() {
+    private val listItems:List<String>,
+    private val selectedItem : String) : RecyclerView.Adapter<CustomListItemAdapter.ViewHolder>() {
 
 
 
