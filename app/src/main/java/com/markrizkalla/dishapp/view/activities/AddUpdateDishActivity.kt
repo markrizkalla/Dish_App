@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.Settings
+import android.text.TextUtils
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -51,6 +52,7 @@ class AddUpdateDishActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddUpdateDishBinding
     private var mImagePath : String = ""
+    private lateinit var mCustomListDialog : Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,10 +73,41 @@ class AddUpdateDishActivity : AppCompatActivity() {
             customItemDialog("Select Time" , Constants.dishCookTime(),Constants.DISH_COOKING_TIME)
         }
 
+        binding.btnAddDish.setOnClickListener {
+            // trim empty spaces
+            val title = binding.etTitle.text.toString().trim{ it <= ' '}
+            val type = binding.etType.text.toString().trim { it <= ' ' }
+            val category = binding.etCategory.text.toString().trim { it <= ' ' }
+            val ingredients = binding.etIngredients.text.toString().trim { it <= ' ' }
+            val cookingTimeInMinutes = binding.etCookingTime.text.toString().trim { it <= ' ' }
+            val cookingDirection = binding.etDirectionToCook.text.toString().trim { it <= ' ' }
+
+            when{
+                TextUtils.isEmpty(title) -> {
+                    Toast.makeText(this,"Add Title",Toast.LENGTH_SHORT).show()
+                }
+                TextUtils.isEmpty(type) -> {
+                    Toast.makeText(this,"Add Type",Toast.LENGTH_SHORT).show()
+                }
+                TextUtils.isEmpty(category) -> {
+                    Toast.makeText(this,"Add Category",Toast.LENGTH_SHORT).show()
+                }
+                TextUtils.isEmpty(ingredients) -> {
+                    Toast.makeText(this,"Add Ingredients",Toast.LENGTH_SHORT).show()
+                }
+                TextUtils.isEmpty(cookingTimeInMinutes) -> {
+                    Toast.makeText(this,"Add Cooking Time",Toast.LENGTH_SHORT).show()
+                }
+                TextUtils.isEmpty(cookingDirection) -> {
+                    Toast.makeText(this,"Add Cooking Direction",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
     }
 
     private fun customImageSelectionDialog(){
-        val dialog = Dialog(this)
+         val dialog   = Dialog(this)
         val binding: DialogCustomImageSelectionBinding =
             DialogCustomImageSelectionBinding.inflate(layoutInflater)
         dialog.setContentView(binding.root)
@@ -155,6 +188,24 @@ class AddUpdateDishActivity : AppCompatActivity() {
 
     }
 
+    fun selectedListItem(item: String, selection: String){
+        when(selection){
+            Constants.DISH_TYPE -> {
+                mCustomListDialog.dismiss()
+                binding.etType.setText(item)
+            }
+            Constants.DISH_CATEGORY -> {
+                mCustomListDialog.dismiss()
+                binding.etCategory.setText(item)
+            }
+            Constants.DISH_COOKING_TIME -> {
+            mCustomListDialog.dismiss()
+            binding.etCookingTime.setText(item)
+            }
+
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK){
@@ -226,16 +277,16 @@ class AddUpdateDishActivity : AppCompatActivity() {
     }
 
     private fun customItemDialog(title: String, itemsList:List<String>,selection: String){
-        val customListDialog = Dialog(this)
+         mCustomListDialog = Dialog(this)
         val binding:DialogCustomListBinding = DialogCustomListBinding.inflate(layoutInflater)
 
-        customListDialog.setContentView(binding.root)
+        mCustomListDialog.setContentView(binding.root)
         binding.tvTitle.text = title
 
         binding.rvList.layoutManager = LinearLayoutManager(this)
         val adapter = CustomListItemAdapter(this,itemsList,selection)
         binding.rvList.adapter = adapter
-        customListDialog.show()
+        mCustomListDialog.show()
     }
 
 
