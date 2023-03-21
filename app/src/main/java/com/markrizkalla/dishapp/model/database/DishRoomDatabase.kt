@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.markrizkalla.dishapp.model.entities.Dish
 
-@Database(entities = [Dish::class], version = 1, exportSchema = false)
+@Database(entities = [Dish::class], version = 2, exportSchema = false)
 abstract class DishRoomDatabase:RoomDatabase() {
     abstract val dishDao: DishDao
 

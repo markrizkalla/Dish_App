@@ -22,8 +22,10 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -38,9 +40,13 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
+import com.markrizkalla.dishapp.application.DishApp
 import com.markrizkalla.dishapp.databinding.DialogCustomListBinding
+import com.markrizkalla.dishapp.model.entities.Dish
 import com.markrizkalla.dishapp.utils.Constants
 import com.markrizkalla.dishapp.view.adapters.CustomListItemAdapter
+import com.markrizkalla.dishapp.viewmodel.DishViewModel
+import com.markrizkalla.dishapp.viewmodel.DishViewModelFactory
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOError
@@ -53,6 +59,7 @@ class AddUpdateDishActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddUpdateDishBinding
     private var mImagePath : String = ""
     private lateinit var mCustomListDialog : Dialog
+    private val dishViewModel :DishViewModel by  viewModels { DishViewModelFactory((application as DishApp).repository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +69,9 @@ class AddUpdateDishActivity : AppCompatActivity() {
         binding.ivAddDishImage.setOnClickListener {
             customImageSelectionDialog()
         }
+
+
+
 
         binding.etType.setOnClickListener{
             customItemDialog("Dish Type",Constants.dishTypes(), Constants.DISH_TYPE)
@@ -101,6 +111,16 @@ class AddUpdateDishActivity : AppCompatActivity() {
                 TextUtils.isEmpty(cookingDirection) -> {
                     Toast.makeText(this,"Add Cooking Direction",Toast.LENGTH_SHORT).show()
                 }
+
+                else ->{
+                    val dishDetails = Dish(mImagePath,Constants.DISH_IMAGE_SOURCE_LOCAL,
+                        title,type,category,ingredients,cookingTimeInMinutes,cookingDirection,false)
+
+                    dishViewModel.insert(dishDetails)
+                    finish()
+                }
+
+
             }
         }
 

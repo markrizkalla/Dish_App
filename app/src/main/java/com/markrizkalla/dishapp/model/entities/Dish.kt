@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "dishes_tab")
 data class Dish(
+    @ColumnInfo val image:String,
     @ColumnInfo(name = "image_source") val imageSource: String,
     @ColumnInfo val title: String,
     @ColumnInfo val type: String,
