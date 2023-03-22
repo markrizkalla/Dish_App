@@ -1,8 +1,6 @@
 package com.markrizkalla.dishapp.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.markrizkalla.dishapp.model.database.DishRepository
 import com.markrizkalla.dishapp.model.entities.Dish
 import kotlinx.coroutines.launch
@@ -14,6 +12,8 @@ class DishViewModel(private val repository: DishRepository) : ViewModel() {
             repository.insertDishData(dish)
         }
     }
+
+    val allDishes : LiveData<List<Dish>> = repository.getAllDishes().asLiveData()
 }
 
 class DishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
