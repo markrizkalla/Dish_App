@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.markrizkalla.dishapp.R
 import com.markrizkalla.dishapp.application.DishApp
@@ -70,6 +71,11 @@ class AllDishesFragment : Fragment() {
             }
         })
     }
+
+    fun dishDetails(){
+        findNavController().navigate(AllDishesFragmentDirections.actionNavigationHomeToDishDetailsFragment())
+    }
+
 
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
