@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.markrizkalla.dishapp.R
 import com.markrizkalla.dishapp.application.DishApp
 import com.markrizkalla.dishapp.databinding.FragmentAllDishesBinding
+import com.markrizkalla.dishapp.model.entities.Dish
 import com.markrizkalla.dishapp.view.activities.AddUpdateDishActivity
+import com.markrizkalla.dishapp.view.activities.MainActivity
 import com.markrizkalla.dishapp.view.adapters.DishAdapter
 import com.markrizkalla.dishapp.viewmodel.DishViewModel
 import com.markrizkalla.dishapp.viewmodel.DishViewModelFactory
@@ -72,10 +74,20 @@ class AllDishesFragment : Fragment() {
         })
     }
 
-    fun dishDetails(){
-        findNavController().navigate(AllDishesFragmentDirections.actionNavigationHomeToDishDetailsFragment())
+    fun dishDetails(dish:Dish){
+        findNavController().navigate(AllDishesFragmentDirections.actionNavigationHomeToDishDetailsFragment(dish))
+
+        if (requireActivity() is MainActivity){
+            (activity as MainActivity?)?.hideBottomNavigationView()
+        }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (requireActivity() is MainActivity){
+            (activity as MainActivity?)?.showBottomNavigationView()
+        }
+    }
 
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

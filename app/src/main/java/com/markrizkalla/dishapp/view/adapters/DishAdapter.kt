@@ -29,7 +29,7 @@ class DishAdapter(private val fragment:Fragment) : RecyclerView.Adapter<DishAdap
 
         holder.itemView.setOnClickListener {
             if (fragment is AllDishesFragment){
-                fragment.dishDetails()
+                fragment.dishDetails(dish);
             }
         }
     }
