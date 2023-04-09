@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.markrizkalla.dishapp.R
-
+import com.markrizkalla.dishapp.databinding.FragmentDashboardBinding
 
 
 class DishDetailsFragment : Fragment() {
-
+    private  var _binding : FragmentDashboardBinding?= null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
