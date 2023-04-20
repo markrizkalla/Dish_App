@@ -7,7 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
@@ -15,13 +18,21 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.markrizkalla.dishapp.R
+import com.markrizkalla.dishapp.application.DishApp
 import com.markrizkalla.dishapp.databinding.FragmentDishDetailsBinding
+import com.markrizkalla.dishapp.viewmodel.DishViewModel
+import com.markrizkalla.dishapp.viewmodel.DishViewModelFactory
 import java.io.IOException
 
 
 class DishDetailsFragment : Fragment() {
     private  var _binding : FragmentDishDetailsBinding?= null
     private val binding get() = _binding!!
+
+    private val mDishViewModel : DishViewModel by viewModels {
+        DishViewModelFactory(((requireActivity().application) as DishApp).repository)
+    }
 
 
     override fun onCreateView(
@@ -30,6 +41,9 @@ class DishDetailsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentDishDetailsBinding.inflate(inflater, container, false)
+
+
+
         val view = binding?.root
 
 
@@ -87,7 +101,26 @@ class DishDetailsFragment : Fragment() {
             binding.tvCookingDirection.text = it.dishDetails.directionToCook
             binding.tvCookingTime.text = it.dishDetails.cookingTime
 
+            if (args.dishDetails.favoriteDish){
+                binding.ivFavoriteDish.setImageDrawable(ContextCompat.getDrawable(requireActivity(),R.drawable.ic_favorite_selected))
+            }else{
+                binding.ivFavoriteDish.setImageDrawable(ContextCompat.getDrawable(requireActivity(),R.drawable.ic_favorite_unselected))
 
+            }
+
+        }
+
+        binding.ivFavoriteDish.setOnClickListener {
+            args.dishDetails.favoriteDish = !args.dishDetails.favoriteDish
+
+            mDishViewModel.update(args.dishDetails)
+
+            if (args.dishDetails.favoriteDish){
+                binding.ivFavoriteDish.setImageDrawable(ContextCompat.getDrawable(requireActivity(),R.drawable.ic_favorite_selected))
+            }else{
+                binding.ivFavoriteDish.setImageDrawable(ContextCompat.getDrawable(requireActivity(),R.drawable.ic_favorite_unselected))
+
+            }
         }
 
 

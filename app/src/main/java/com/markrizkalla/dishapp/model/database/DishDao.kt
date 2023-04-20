@@ -3,6 +3,7 @@ package com.markrizkalla.dishapp.model.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.markrizkalla.dishapp.model.entities.Dish
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,4 +17,7 @@ interface DishDao {
 
     @Query("SELECT * FROM dishes_tab ORDER BY ID")
      fun getAllDishes() : Flow<List<Dish>>
+
+     @Update
+     suspend fun updateDishDetails(dish:Dish)
 }
