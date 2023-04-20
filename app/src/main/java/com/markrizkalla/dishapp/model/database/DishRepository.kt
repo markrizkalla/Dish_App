@@ -19,4 +19,6 @@ class DishRepository(private val dishDao: DishDao) {
     suspend fun updateDishData(dish: Dish){
         dishDao.updateDishDetails(dish)
     }
+
+    val favoriteDishes:Flow<List<Dish>> = dishDao.getFavoriteDishesList()
 }

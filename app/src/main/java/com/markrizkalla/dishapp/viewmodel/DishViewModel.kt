@@ -20,6 +20,8 @@ class DishViewModel(private val repository: DishRepository) : ViewModel() {
             repository.updateDishData(dish)
         }
     }
+
+    val favoriteDishes :LiveData<List<Dish>> = repository.favoriteDishes.asLiveData()
 }
 
 class DishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{

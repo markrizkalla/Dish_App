@@ -20,4 +20,7 @@ interface DishDao {
 
      @Update
      suspend fun updateDishDetails(dish:Dish)
+
+     @Query("SELECT * FROM dishes_tab WHERE favorite_dish = 1")
+     fun getFavoriteDishesList() : Flow<List<Dish>>
 }

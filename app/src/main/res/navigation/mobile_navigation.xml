@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.markrizkalla.dishapp.view.fragments.DashboardFragment"
+        android:name="com.markrizkalla.dishapp.view.fragments.FavoriteDishesFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
