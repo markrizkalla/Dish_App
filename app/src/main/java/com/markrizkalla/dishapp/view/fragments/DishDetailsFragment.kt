@@ -123,7 +123,6 @@ class DishDetailsFragment : Fragment() {
             }
         }
 
-
     }
 
     override fun onDestroyView() {

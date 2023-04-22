@@ -9,9 +9,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.markrizkalla.dishapp.application.DishApp
 import com.markrizkalla.dishapp.databinding.FragmentDashboardBinding
+import com.markrizkalla.dishapp.model.entities.Dish
+import com.markrizkalla.dishapp.view.activities.MainActivity
 import com.markrizkalla.dishapp.view.adapters.DishAdapter
 import com.markrizkalla.dishapp.viewmodel.DashboardViewModel
 import com.markrizkalla.dishapp.viewmodel.DishViewModel
@@ -72,8 +75,24 @@ class FavoriteDishesFragment : Fragment() {
         }
     }
 
+
+     fun dishDetails(dish: Dish){
+        findNavController().navigate(FavoriteDishesFragmentDirections.actionNavigationDashboardToDishDetailsFragment(dish))
+
+         if (requireActivity() is MainActivity){
+             (activity as MainActivity?)?.hideBottomNavigationView()
+         }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(requireActivity() is MainActivity){
+            (activity as MainActivity?)?.showBottomNavigationView()
+        }
     }
 }
