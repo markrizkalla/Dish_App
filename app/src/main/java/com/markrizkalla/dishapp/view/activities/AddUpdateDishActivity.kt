@@ -59,12 +59,24 @@ class AddUpdateDishActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddUpdateDishBinding
     private var mImagePath : String = ""
     private lateinit var mCustomListDialog : Dialog
+
+    private var mDishDetails :Dish? = null
+
     private val dishViewModel :DishViewModel by  viewModels { DishViewModelFactory((application as DishApp).repository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddUpdateDishBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        setUpActionBar()
+
+        if (intent.hasExtra(Constants.EXTRA_DISH_DETAILS)){
+
+            mDishDetails = intent.getParcelableExtra(Constants.EXTRA_DISH_DETAILS)
+        }
+
 
         binding.ivAddDishImage.setOnClickListener {
             customImageSelectionDialog()
@@ -309,6 +321,25 @@ class AddUpdateDishActivity : AppCompatActivity() {
         mCustomListDialog.show()
     }
 
+
+    private fun setUpActionBar(){
+        setSupportActionBar(binding.toolbarAddDishActivity)
+
+        if (mDishDetails != null && mDishDetails!!.id != 0){
+            supportActionBar?.let {
+                it.title = resources.getString(R.string.title_editDish)
+            }
+        }else{
+            supportActionBar?.let {
+                it.title = resources.getString(R.string.title_addDish)
+            }
+        }
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.toolbarAddDishActivity.setNavigationOnClickListener {
+            onBackPressed()
+        }
+    }
 
     companion object{
         private const val CAMERA = 1

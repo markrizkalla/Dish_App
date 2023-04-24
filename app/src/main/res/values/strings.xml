@@ -22,4 +22,8 @@
     <string name="title_select_image">Select Image Action</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_editDish">Edit Dish</string>
+    <string name="title_addDish">Add Dish</string>
+    <string name="l_updateDish">UPDATE DISH</string>
 </resources>
