@@ -41,7 +41,7 @@ class DishAdapter(private val fragment:Fragment) : RecyclerView.Adapter<DishAdap
             }
 
             if(fragment is FavoriteDishesFragment){
-                fragment.dishDetails(dish);
+                fragment.dishDetails(dish)
             }
         }
 
@@ -58,7 +58,9 @@ class DishAdapter(private val fragment:Fragment) : RecyclerView.Adapter<DishAdap
                     fragment.requireActivity().startActivity(intent)
 
                 }else if(it.itemId == R.id.action_delete_dish){
-
+                    if (fragment is AllDishesFragment){
+                        fragment.deleteDish(dish)
+                    }
                 }
                 true
             }

@@ -1,6 +1,7 @@
 package com.markrizkalla.dishapp.model.database
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -23,4 +24,7 @@ interface DishDao {
 
      @Query("SELECT * FROM dishes_tab WHERE favorite_dish = 1")
      fun getFavoriteDishesList() : Flow<List<Dish>>
+
+     @Delete
+     suspend fun deleteDish(dish: Dish)
 }

@@ -70,13 +70,29 @@ class AddUpdateDishActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        setUpActionBar()
-
         if (intent.hasExtra(Constants.EXTRA_DISH_DETAILS)){
-
             mDishDetails = intent.getParcelableExtra(Constants.EXTRA_DISH_DETAILS)
         }
 
+        setUpActionBar()
+
+        mDishDetails?.let {
+            if (it.id != 0){
+                mImagePath = it.image
+                Glide.with(this@AddUpdateDishActivity)
+                    .load(mImagePath)
+                    .centerCrop().into(binding.ivDishImage)
+
+                binding.etTitle.setText(it.title)
+                binding.etType.setText(it.type)
+                binding.etCategory.setText(it.category)
+                binding.etIngredients.setText(it.ingredients)
+                binding.etCookingTime.setText(it.cookingTime)
+                binding.etDirectionToCook.setText(it.directionToCook)
+                binding.btnAddDish.text = resources.getString(R.string.l_updateDish)
+
+            }
+        }
 
         binding.ivAddDishImage.setOnClickListener {
             customImageSelectionDialog()
@@ -125,10 +141,33 @@ class AddUpdateDishActivity : AppCompatActivity() {
                 }
 
                 else ->{
-                    val dishDetails = Dish(mImagePath,Constants.DISH_IMAGE_SOURCE_LOCAL,
-                        title,type,category,ingredients,cookingTimeInMinutes,cookingDirection,false)
 
-                    dishViewModel.insert(dishDetails)
+                    var dishId = 0
+                    var imageSource = Constants.DISH_IMAGE_SOURCE_LOCAL
+                    var favoriteDish = false
+
+                    mDishDetails?.let {
+                        if (it.id != 0){
+                            dishId = it.id
+                            imageSource = it.imageSource
+                            favoriteDish = it.favoriteDish
+                        }
+                    }
+
+                    val dishDetails = Dish(mImagePath,imageSource,
+                        title,type,category,ingredients,cookingTimeInMinutes,cookingDirection,favoriteDish,dishId)
+
+
+
+                    if (dishId == 0){
+                        dishViewModel.insert(dishDetails)
+                        Toast.makeText(this,"Successfully created",Toast.LENGTH_SHORT).show()
+
+                    }else{
+                        dishViewModel.update(dishDetails)
+                        Toast.makeText(this,"Successfully updates",Toast.LENGTH_SHORT).show()
+                    }
+
                     finish()
                 }
 
